@@ -1,10 +1,10 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeLink, setActiveLink] = useState('/');
+  const location = useLocation(); // Get current route
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,20 +47,19 @@ const Header = () => {
             <ul className="flex items-center gap-8 font-outfit">
               {navLinks.map((link) => (
                 <li key={link.path}>
-                  <a
-                    href={link.path}
-                    onClick={() => setActiveLink(link.path)}
+                  <Link
+                    to={link.path}
                     className={`relative text-base font-medium transition-all duration-300 hover:text-[#C9C6BC] group ${
-                      activeLink === link.path ? 'text-[#C9C6BC]' : 'text-white'
+                      location.pathname === link.path ? 'text-[#C9C6BC]' : 'text-white'
                     }`}
                   >
                     {link.label}
                     <span 
                       className={`absolute -bottom-1 left-0 h-0.5 bg-[#C9C6BC] transition-all duration-300 ${
-                        activeLink === link.path ? 'w-full' : 'w-0 group-hover:w-full'
+                        location.pathname === link.path ? 'w-full' : 'w-0 group-hover:w-full'
                       }`}
                     />
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -68,7 +67,7 @@ const Header = () => {
 
           {/* Logo - CENTER */}
           <div className="absolute left-1/2 transform -translate-x-1/2 transition-transform duration-300 hover:scale-105">
-            <a href="/" className="block">
+            <Link to="/" className="block">
               <svg 
                 className="w-[280px] h-auto lg:w-[370px] transition-all duration-300" 
                 viewBox="0 0 1400 200" 
@@ -93,7 +92,7 @@ const Header = () => {
                 <path d="M301.243 29.0924C288.33 29.0908 276.26 28.9387 264.196 29.1562C258.804 29.2534 257.065 27.3491 259.28 21.362C286.993 21.362 314.72 21.2657 342.442 21.5806C344.273 21.6014 346.071 24.7575 347.884 26.4553C347.401 27.3343 346.917 28.2133 346.433 29.0924C331.652 29.0924 316.87 29.0924 301.243 29.0924Z" fill="#C9C6BC"/>
                 <path d="M7.15687 29.0772C1.48558 29.651 -1.48241 28.4029 0.74041 21.3671C6.11231 21.3671 11.9048 21.367 17.6973 21.3671C39.3285 21.3676 60.9607 21.4847 82.5902 21.2856C87.9127 21.2366 89.8197 22.9172 87.6326 29.0774C61.208 29.0774 34.5951 29.0774 7.15687 29.0772Z" fill="#E4E3E0"/>
               </svg>
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}

@@ -102,13 +102,6 @@ const Services = () => {
           <p className="text-custom-6 text-base lg:text-xl max-w-2xl mx-auto animate-fade-in-delay">
             Comprehensive AI solutions tailored to your business needs
           </p>
-          
-          {/* Scroll indicator */}
-          <div className="mt-16 animate-bounce">
-            <svg className="w-6 h-6 mx-auto text-custom-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </div>
         </div>
 
         {/* Gradient orbs */}
