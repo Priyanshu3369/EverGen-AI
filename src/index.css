@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scrollbar-width: none; /* For Firefox */
+    scroll-behavior: smooth;
+  }
+
+  html::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Edge */
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #000;
+    position: relative;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  body::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background-color: transparent;
+  }
+}
+
+@layer utilities {
+  /* Custom scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #040409;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #F87060;
+    border-radius: 10px;
+  }
+
+  /* Animation for up-down effect */
+  @keyframes updown {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .up-down {
+    animation: updown 4s infinite ease-in-out;
+  }
+
+  /* Marquee text */
+  .marquee-text {
+    white-space: nowrap;
+  }
+
+  /* Details/summary styles */
+  details {
+    transition: height 0.5s ease-in-out, background-color 0.2s ease-in-out;
+  }
+
+  details summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  details summary::after {
+    content: "+";
+    font-size: 30px;
+    transition: content 0.5s all;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    color: #8c8c8c;
+    margin-left: auto;
+  }
+
+  details[open] summary::after {
+    content: "-";
+  }
+
+  details {
+    height: auto;
+    transition: height 0.5s ease-in-out;
+  }
+
+  details[open] {
+    height: auto;
+  }
+
+  /* List check styles */
+  .list-check {
+    list-style: none;
+    padding-inline-start: 0px;
+  }
+
+  .list-check li {
+    gap: 10px;
+    display: flex;
+  }
+
+  .list-check li:before {
+    content: "✓";
+    width: 20px;
+    height: 20px;
+    border: 1px solid;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Font faces */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 100;
+  font-display: fallback;
+  src: url('/fonts/outfit/QGYyz_MVcBeNP4NjuGObqx1XmO1I4TC0C4S-EiAou6Y.woff') format('woff2');
+}
+
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 400;
+  font-display: fallback;
+  src: url('/fonts/outfit/QGYyz_MVcBeNP4NjuGObqx1XmO1I4TC1C4S-EiAou6Y.woff') format('woff2');
+}
+
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 500;
+  font-display: fallback;
+  src: url('/fonts/outfit/QGYyz_MVcBeNP4NjuGObqx1XmO1I4QK1C4S-EiAou6Y.woff') format('woff2');
+}
+
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 700;
+  font-display: fallback;
+  src: url('/fonts/outfit/QGYyz_MVcBeNP4NjuGObqx1XmO1I4deyC4S-EiAou6Y.woff') format('woff2');
+}
+
+@font-face {
+  font-family: 'Zen Tokyo Zoo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: fallback;
+  src: url('/fonts/zen-tokyo-zoo/zen-tokyo-zoo-400-normal.woff') format('woff2');
+}
+
+@font-face {
+  font-family: 'Sofia';
+  font-style: normal;
+  font-weight: 400;
+  font-display: fallback;
+  src: url('/fonts/sofia/sofia-400-normal.woff') format('woff2');
+}
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  font-display: fallback;
+  src: url('/fonts/raleway/raleway-400-normal.woff') format('woff2');
+}
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 500;
+  font-display: fallback;
+  src: url('/fonts/raleway/raleway-500-normal.woff') format('woff2');
+}
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 900;
+  font-display: fallback;
+  src: url('/fonts/raleway/raleway-900-normal.woff') format('woff2');
+}
