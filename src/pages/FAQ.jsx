@@ -30,7 +30,7 @@ const FAQ = () => {
   };
 
   const FAQItem = ({ id, question, answer }) => (
-    <div className="bg-custom-9 overflow-hidden transition-all duration-300 hover:shadow-lg">
+    <div className="bg-custom-9 overflow-hidden transition-all duration-300 hover:shadow-lg flex-shrink-0">
       <button
         onClick={() => toggleFaq(id)}
         className="w-full p-8 text-left flex justify-between items-center gap-4 hover:bg-opacity-90 transition-all duration-300"
@@ -56,6 +56,9 @@ const FAQ = () => {
 
   return (
     <div className="relative bg-custom-1 overflow-hidden" style={{ backgroundImage: 'url(/wp-content/themes/openmind/assets/images/lines-2.png)', backgroundPosition: 'center', backgroundSize: 'contain' }}>
+      {/* Light effect */}
+      <div className="absolute right-0 top-1/4 z-0 pointer-events-none" style={{ boxShadow: '0px 0px 400px 200px #F87060', opacity: 0.3, height: 0, width: 0 }}></div>
+
       {/* Hero Section */}
       <div className="relative px-8 lg:px-16 py-20 lg:py-32">
         <div className="text-center max-w-4xl mx-auto">
@@ -68,9 +71,6 @@ const FAQ = () => {
         </div>
       </div>
 
-      {/* Light effect */}
-      <div className="absolute right-0 top-1/4 z-0 pointer-events-none" style={{ boxShadow: '0px 0px 400px 200px #F87060', opacity: 0.3, height: 0, width: 0 }}></div>
-
       {/* FAQ Section 1 - AI Solutions */}
       <div className="relative px-8 lg:px-16 py-16 lg:py-24">
         <div className="max-w-7xl mx-auto">
@@ -81,7 +81,9 @@ const FAQ = () => {
               isVisible['ai-solutions-faq'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
           >
-            <div className="flex flex-col justify-center lg:pr-8">
+            <div className={`flex flex-col justify-center lg:pr-8 transition-all duration-1000 delay-200 ${
+              isVisible['ai-solutions-faq'] ? 'translate-x-0 opacity-100' : '-translate-x-20 opacity-0'
+            }`}>
               <h2 className="text-white font-outfit font-bold text-3xl lg:text-4xl mb-6 leading-tight">
                 AI Solutions FAQs
               </h2>
@@ -90,8 +92,10 @@ const FAQ = () => {
               </p>
             </div>
 
-            <div className="bg-[#9b51e0] p-8 lg:p-10">
-              <div className="space-y-4">
+            <div className={`bg-[#1a1a2e] p-8 lg:p-10 transition-all duration-1000 delay-400 ${
+              isVisible['ai-solutions-faq'] ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'
+            }`}>
+              <div className="flex flex-col gap-4">
                 <FAQItem
                   id="ai-1"
                   question="How does your AI training process work?"
@@ -128,8 +132,10 @@ const FAQ = () => {
               isVisible['talent-pool-faq'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
           >
-            <div className="bg-[#9b51e0] p-8 lg:p-10 lg:order-1">
-              <div className="space-y-4">
+            <div className={`bg-[#1a1a2e] p-8 lg:p-10 lg:order-1 transition-all duration-1000 delay-400 ${
+              isVisible['talent-pool-faq'] ? 'translate-x-0 opacity-100' : '-translate-x-20 opacity-0'
+            }`}>
+              <div className="flex flex-col gap-4">
                 <FAQItem
                   id="talent-1"
                   question="What is your talent pool, and how does it work?"
@@ -153,7 +159,9 @@ const FAQ = () => {
               </div>
             </div>
 
-            <div className="flex flex-col justify-center lg:pl-8 lg:order-2">
+            <div className={`flex flex-col justify-center lg:pl-8 lg:order-2 transition-all duration-1000 delay-200 ${
+              isVisible['talent-pool-faq'] ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'
+            }`}>
               <h2 className="text-white font-outfit font-bold text-3xl lg:text-4xl mb-6 leading-tight lg:text-right">
                 Talent Pool FAQs
               </h2>
