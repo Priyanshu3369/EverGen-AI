@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 const Marquee = ({ children, speed = 0.5 }) => {
@@ -25,6 +25,68 @@ const Marquee = ({ children, speed = 0.5 }) => {
     </div>
   );
 };
+const AnimatedCounter = ({ targetNum, suffix, label, delay }) => {
+  const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const duration = 2000; // 2 seconds animation
+    const steps = 60;
+    const increment = targetNum / steps;
+    const stepDuration = duration / steps;
+
+    let currentStep = 0;
+    const timer = setInterval(() => {
+      currentStep++;
+      if (currentStep <= steps) {
+        setCount(Math.min(Math.floor(increment * currentStep), targetNum));
+      } else {
+        setCount(targetNum);
+        clearInterval(timer);
+      }
+    }, stepDuration);
+
+    return () => clearInterval(timer);
+  }, [isVisible, targetNum]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={isVisible ? { scale: 1, opacity: 1 } : {}}
+      transition={{ delay, type: "spring", stiffness: 100 }}
+    >
+      <h3 className="text-yellow-500 text-4xl font-bold mb-2">
+        {count}{suffix}
+      </h3>
+      <p className="text-white text-sm font-medium">{label}</p>
+    </motion.div>
+  );
+};
 
 const Home = () => {
   const { scrollYProgress } = useScroll();
@@ -38,7 +100,7 @@ const Home = () => {
   return (
     <div className="relative bg-[#0a0a0a] overflow-hidden">
       {/* Background grid pattern */}
-      <div 
+      <div
         className="fixed inset-0 opacity-10 pointer-events-none"
         style={{
           backgroundImage: `
@@ -48,11 +110,11 @@ const Home = () => {
           backgroundSize: '60px 60px',
         }}
       />
-      
+
       {/* Animated gradient orbs */}
-      <motion.div 
+      <motion.div
         className="fixed top-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ 
+        style={{
           background: 'radial-gradient(circle, rgba(248,112,96,0.4) 0%, transparent 70%)',
           filter: 'blur(80px)',
         }}
@@ -66,10 +128,10 @@ const Home = () => {
           ease: "easeInOut"
         }}
       />
-      
-      <motion.div 
+
+      <motion.div
         className="fixed bottom-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ 
+        style={{
           background: 'radial-gradient(circle, rgba(255,190,78,0.3) 0%, transparent 70%)',
           filter: 'blur(80px)',
         }}
@@ -85,17 +147,130 @@ const Home = () => {
       />
 
       {/* Hero Section */}
-      <motion.div 
-        className="relative min-h-screen flex items-center justify-center px-6 lg:px-16"
+      <motion.div
+        className="relative min-h-screen flex items-center justify-center px-6 lg:px-16 overflow-hidden"
         style={{ opacity: heroOpacity, y: heroY }}
       >
-        <div className="max-w-5xl mx-auto text-center">
+        {/* Animated Grid Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Animated diagonal lines */}
+          {[...Array(5)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute h-px bg-gradient-to-r from-transparent via-orange-500/20 to-transparent"
+              style={{
+                width: '200%',
+                top: `${20 + i * 20}%`,
+                left: '-50%',
+              }}
+              animate={{
+                x: ['0%', '50%'],
+                opacity: [0.2, 0.5, 0.2],
+              }}
+              transition={{
+                duration: 8 + i * 2,
+                repeat: Infinity,
+                ease: "linear",
+                delay: i * 0.5,
+              }}
+            />
+          ))}
+
+          {/* Floating particles */}
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={`particle-${i}`}
+              className="absolute w-1 h-1 bg-orange-400 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -30, 0],
+                x: [0, Math.random() * 20 - 10, 0],
+                opacity: [0, 1, 0],
+                scale: [0, 1.5, 0],
+              }}
+              transition={{
+                duration: 4 + Math.random() * 4,
+                repeat: Infinity,
+                delay: Math.random() * 5,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+
+          {/* Animated circles */}
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={`circle-${i}`}
+              className="absolute border border-orange-500/10 rounded-full"
+              style={{
+                width: `${300 + i * 200}px`,
+                height: `${300 + i * 200}px`,
+                left: '50%',
+                top: '50%',
+                x: '-50%',
+                y: '-50%',
+              }}
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.1, 0.3, 0.1],
+                rotate: [0, 360],
+              }}
+              transition={{
+                duration: 20 + i * 5,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          ))}
+
+          {/* Pulsing dots grid */}
+          <div className="absolute inset-0 opacity-20">
+            {[...Array(8)].map((_, row) => (
+              <div key={`row-${row}`} className="flex justify-around">
+                {[...Array(12)].map((_, col) => (
+                  <motion.div
+                    key={`dot-${row}-${col}`}
+                    className="w-1 h-1 bg-yellow-500 rounded-full my-16"
+                    animate={{
+                      opacity: [0.2, 0.8, 0.2],
+                      scale: [1, 1.5, 1],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      delay: (row + col) * 0.1,
+                      ease: "easeInOut",
+                    }}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+
+          {/* Scanning line effect */}
+          <motion.div
+            className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-400/50 to-transparent"
+            animate={{
+              top: ['0%', '100%'],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        </div>
+
+        <div className="max-w-5xl mx-auto text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <motion.h1 
+            <motion.h1
               className="text-white font-bold text-7xl lg:text-8xl mb-6 tracking-tight"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -103,7 +278,7 @@ const Home = () => {
             >
               EVERGEN AI
             </motion.h1>
-            <motion.p 
+            <motion.p
               className="text-gray-400 text-xl lg:text-2xl"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -112,7 +287,7 @@ const Home = () => {
               Intelligent solutions for a smarter tomorrow.
             </motion.p>
           </motion.div>
-          
+
           <motion.div
             className="mt-12"
             initial={{ opacity: 0 }}
@@ -124,16 +299,53 @@ const Home = () => {
       </motion.div>
 
       {/* START NOW Cover Section */}
-      <div className="relative bg-[#634c40] bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/wp-content/themes/openmind/assets/images/img-45.jpg)', backgroundPosition: '50% 50%' }}>
-        <div className="px-12 lg:px-16 py-20">
-          <div className="w-full">
-            <h2 className="text-center text-[#ffffff45] text-[120px] lg:text-[200px] leading-[0.9] lowercase font-black">START NOW</h2>
+      <motion.div
+        className="relative h-[70vh] lg:h-[80vh] bg-[#634c40] bg-cover bg-center bg-no-repeat overflow-hidden"
+        style={{
+          backgroundImage: 'url(/wp-content/themes/openmind/assets/images/img-45.jpg)',
+          backgroundAttachment: 'fixed',
+          backgroundPosition: '50% 50%'
+        }}
+      >
+        <motion.div
+          className="absolute inset-0 bg-black/40"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+        />
+        <motion.div
+          className="relative h-full flex items-center justify-center px-12 lg:px-16"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+        >
+          <div className="w-full text-center">
+            <motion.h2
+              className="text-[#ffffff45] text-[100px] md:text-[150px] lg:text-[220px] leading-[0.9] lowercase font-black"
+              initial={{ y: 50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              START NOW
+            </motion.h2>
+            <motion.p
+              className="text-white text-xl lg:text-2xl mt-8 font-light tracking-wide"
+              initial={{ y: 30, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
+              Begin Your AI Journey Today
+            </motion.p>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Trust Section */}
-      <motion.div 
+      <motion.div
         className="relative px-6 lg:px-16 py-32"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -141,7 +353,7 @@ const Home = () => {
         transition={{ duration: 1 }}
       >
         <div className="max-w-6xl mx-auto">
-          <motion.div 
+          <motion.div
             className="flex flex-col items-center gap-8 mb-16"
             initial={{ y: 40 }}
             whileInView={{ y: 0 }}
@@ -155,8 +367,8 @@ const Home = () => {
               <p className="text-gray-400 text-lg">200+ reviews (4.95 out of 5)</p>
             </div>
           </motion.div>
-          
-          <motion.p 
+
+          <motion.p
             className="text-gray-300 text-center text-lg leading-relaxed max-w-4xl mx-auto mb-16"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -165,9 +377,9 @@ const Home = () => {
           >
             We believe in excellence through hard work and find ourselves at a pivotal moment. We aim to play a meaningful role in shaping our collective future. As a new-age AI solutions firm, we boast an ultra-high-quality talent pool from India, specializing in RLHF—think IITians, PhDs, and artists. Whether you need world-class experts for RLHF or a cutting-edge platform to develop your customized AI model, EverGen AI has the perfect solution for you.
           </motion.p>
-          
+
           {/* Team Images */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               '/wp-content/themes/openmind/assets/images/img46-1024x683.jpg',
               '/wp-content/themes/openmind/assets/images/img48-1024x685.jpg',
@@ -175,17 +387,17 @@ const Home = () => {
             ].map((img, i) => (
               <motion.div
                 key={i}
-                className="aspect-video overflow-hidden rounded-lg"
+                className="aspect-[4/3] overflow-hidden rounded-lg"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
                 whileHover={{ scale: 1.05 }}
               >
-                <img 
-                  src={img} 
-                  alt="Team" 
-                  className="w-full h-full object-cover" 
+                <img
+                  src={img}
+                  alt="Team"
+                  className="w-full h-full object-cover"
                   style={{ filter: 'grayscale(100%)' }}
                 />
               </motion.div>
@@ -207,7 +419,7 @@ const Home = () => {
       <div className="relative px-6 lg:px-16 py-32">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div 
+            <motion.div
               className="grid grid-cols-2 gap-4"
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -226,9 +438,9 @@ const Home = () => {
                   whileHover={{ scale: 1.05, rotate: 2 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <img 
-                    src={img} 
-                    alt="" 
+                  <img
+                    src={img}
+                    alt=""
                     className="w-full h-full object-cover"
                   />
                 </motion.div>
@@ -291,29 +503,26 @@ const Home = () => {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              style={{ 
-                backgroundImage: 'url(/wp-content/themes/openmind/assets/images/img52-683x1024.jpg)', 
+              style={{
+                backgroundImage: 'url(/wp-content/themes/openmind/assets/images/img52-683x1024.jpg)',
                 backgroundSize: 'cover',
                 backgroundPosition: '50% 66%'
               }}
             >
-              <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                <div className="grid grid-cols-3 gap-8 text-center">
+              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70 flex items-end justify-center pb-12">
+                <div className="grid grid-cols-3 gap-8 text-center w-full px-8">
                   {[
-                    { num: '300+', label: 'RLHF Experts' },
-                    { num: '5K', label: 'Training Hrs delivered' },
-                    { num: '1000+', label: 'Talents Sourced' }
+                    { num: 300, label: 'RLHF Experts', suffix: '+' },
+                    { num: 5, label: 'Training Hrs delivered', suffix: 'K' },
+                    { num: 1000, label: 'Talents Sourced', suffix: '+' }
                   ].map((stat, i) => (
-                    <motion.div
+                    <AnimatedCounter
                       key={i}
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.2, type: "spring" }}
-                    >
-                      <h3 className="text-yellow-500 text-4xl font-bold mb-2">{stat.num}</h3>
-                      <p className="text-gray-400 text-sm">{stat.label}</p>
-                    </motion.div>
+                      targetNum={stat.num}
+                      suffix={stat.suffix}
+                      label={stat.label}
+                      delay={i * 0.2}
+                    />
                   ))}
                 </div>
               </div>
@@ -335,54 +544,89 @@ const Home = () => {
       <div className="px-6 lg:px-16 py-32">
         <div className="max-w-7xl mx-auto space-y-32">
           {[
-            { 
-              title: 'Ultra-High Quality RLHF Experts', 
+            {
+              title: 'Ultra-High Quality RLHF Experts',
               desc: 'Your AI Models are only as good as the data they\'ve been trained on. Curate hyper-specific LLM datasets with the help of our experts. Train hallucination-free, technically accurate, value aligned LLMs of tomorrow!',
               img: '/wp-content/themes/openmind/assets/images/img56-1024x683.jpg'
             },
-            { 
-              title: 'Enterprise AI', 
+            {
+              title: 'Enterprise AI',
               desc: 'Transform your Enterprise with production-grade GenAI applications that address real-world use cases and generate significant business value. Use our GenAI engine to deploy scalable, safe, secure, highly accurate and hyper-customized AI solutions.',
               img: '/wp-content/themes/openmind/assets/images/silhouette-sky-sunset-skyscraper-cityscape-dusk-1362207-pxhere.com_-1024x699.jpg'
             },
-            { 
-              title: 'Talent-On-Demand', 
+            {
+              title: 'Talent-On-Demand',
               desc: 'Access highly skilled HR professionals perfectly suited to meet your dynamic business needs with EverGen. Whether you require specialized expertise or additional resources for projects, our talent pool provides the flexibility and agility necessary for success in today\'s competitive landscape.',
               img: '/wp-content/themes/openmind/assets/images/img54-2.jpg'
             }
           ].map((service, i) => (
-            <motion.div
+            <div
               key={i}
               className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${i % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
             >
               <motion.div
                 className={`aspect-square overflow-hidden rounded-2xl ${i % 2 === 1 ? 'lg:col-start-2' : ''}`}
+                initial={{ opacity: 0, x: i % 2 === 0 ? -100 : 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
                 whileHover={{ scale: 1.05 }}
               >
-                <img 
-                  src={service.img} 
+                <img
+                  src={service.img}
                   alt={service.title}
                   className="w-full h-full object-cover"
                 />
               </motion.div>
-              <div className={i % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}>
-                <h3 className="text-white text-4xl font-bold mb-6">{service.title}</h3>
-                <p className="text-gray-400 text-lg mb-8">{service.desc}</p>
+
+              <motion.div
+                className={i % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}
+                initial={{ opacity: 0, x: i % 2 === 0 ? 100 : -100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                  <h3 className="text-white text-4xl font-bold mb-6">{service.title}</h3>
+                </motion.div>
+
+                <motion.p
+                  className="text-gray-400 text-lg mb-8 leading-relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                >
+                  {service.desc}
+                </motion.p>
+
                 <motion.button
-                  className="text-white text-xl border-b-2 border-white pb-2"
+                  className="text-white text-xl border-b-2 border-white pb-2 hover:border-orange-400 hover:text-orange-400 transition-colors duration-300"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.8 }}
                   whileHover={{ x: 10 }}
                 >
                   View Service →
                 </motion.button>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           ))}
-          
+
           {/* View All Services Button */}
-          <div className="flex justify-center mt-12">
+          <motion.div
+            className="flex justify-center mt-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8 }}
+          >
             <motion.button
               className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-16 py-4 rounded-lg font-semibold uppercase"
               whileHover={{ scale: 1.05 }}
@@ -390,14 +634,14 @@ const Home = () => {
             >
               View all services
             </motion.button>
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Integrations */}
       <div className="px-6 lg:px-16 py-32">
         <div className="max-w-6xl mx-auto text-center">
-          <motion.h2 
+          <motion.h2
             className="text-white text-5xl font-bold mb-6"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -405,7 +649,7 @@ const Home = () => {
           >
             Exclusive integrations
           </motion.h2>
-          <motion.p 
+          <motion.p
             className="text-gray-400 text-xl mb-16"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -447,89 +691,174 @@ const Home = () => {
       </div>
 
       {/* Timeline Section */}
-      <div className="relative bg-[#ffffff1c] px-8 lg:px-12 py-16 lg:py-20 mt-20 lg:mt-32 mb-20 lg:mb-32">
-        <div className="flex flex-col gap-8 mb-12">
-          <div className="flex flex-wrap justify-between gap-8">
-            <div className="flex-1 min-w-[250px]">
-              <p className="text-white text-5xl mb-4 font-bold">Our Journey in AI Excellence</p>
-            </div>
-            <div className="flex-1 min-w-[250px]">
-              <p className="text-gray-400 text-lg">
-                Discover the key moments, innovations, and milestones that have shaped our journey toward AI mastery and leadership.
-              </p>
+      <div className="relative px-6 lg:px-16 py-32">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-20">
+            <motion.h2
+              className="text-white text-5xl lg:text-6xl font-bold mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              Our Journey in AI Excellence
+            </motion.h2>
+            <motion.p
+              className="text-gray-400 text-lg lg:text-xl max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              Discover the key moments, innovations, and milestones that have shaped our journey toward AI mastery and leadership.
+            </motion.p>
+          </div>
+
+          {/* Timeline */}
+          <div className="relative">
+            {/* Vertical line for desktop */}
+            <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-orange-500 via-yellow-500 to-orange-500 transform -translate-x-1/2" />
+
+            {/* Timeline Items */}
+            <div className="space-y-24 lg:space-y-32">
+              {/* 2022 */}
+              <motion.div
+                className="relative flex flex-col lg:flex-row lg:items-center gap-8"
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                {/* Left side - Content */}
+                <div className="flex-1 lg:text-right lg:pr-16">
+                  <div className="bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-8 lg:p-10 rounded-2xl border border-orange-500/20 hover:border-orange-500/40 transition-all duration-300">
+                    <div className="flex lg:justify-end mb-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-white text-2xl lg:text-3xl font-bold mb-3">Official Launch</h3>
+                    <p className="text-gray-400 text-base lg:text-lg leading-relaxed">
+                      Started our journey in AI training with a dedicated team of experts, laying the foundation for excellence in RLHF and machine learning solutions.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Center - Year badge */}
+                <div className="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 w-20 h-20 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full items-center justify-center shadow-lg shadow-orange-500/50 z-10">
+                  <span className="text-white text-xl font-black">2022</span>
+                </div>
+                <div className="lg:hidden mb-4">
+                  <span className="inline-block bg-gradient-to-br from-orange-500 to-yellow-500 text-white text-lg font-black px-6 py-2 rounded-full">2022</span>
+                </div>
+
+                {/* Right side - Empty for alignment */}
+                <div className="flex-1 hidden lg:block" />
+              </motion.div>
+
+              {/* 2023 */}
+              <motion.div
+                className="relative flex flex-col lg:flex-row lg:items-center gap-8"
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                {/* Left side - Empty for alignment */}
+                <div className="flex-1 hidden lg:block" />
+
+                {/* Center - Year badge */}
+                <div className="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 w-20 h-20 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full items-center justify-center shadow-lg shadow-orange-500/50 z-10">
+                  <span className="text-white text-xl font-black">2023</span>
+                </div>
+                <div className="lg:hidden mb-4">
+                  <span className="inline-block bg-gradient-to-br from-orange-500 to-yellow-500 text-white text-lg font-black px-6 py-2 rounded-full">2023</span>
+                </div>
+
+                {/* Right side - Content */}
+                <div className="flex-1 lg:pl-16">
+                  <div className="bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-8 lg:p-10 rounded-2xl border border-yellow-500/20 hover:border-yellow-500/40 transition-all duration-300">
+                    <div className="flex mb-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                          <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-white text-2xl lg:text-3xl font-bold mb-3">First Milestone</h3>
+                    <p className="text-gray-400 text-base lg:text-lg leading-relaxed">
+                      Completed our first 1000 training sessions with excellent feedback, establishing ourselves as a trusted partner in AI model development and refinement.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* 2024 */}
+              <motion.div
+                className="relative flex flex-col lg:flex-row lg:items-center gap-8"
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                {/* Left side - Content */}
+                <div className="flex-1 lg:text-right lg:pr-16">
+                  <div className="bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] p-8 lg:p-10 rounded-2xl border border-orange-500/20 hover:border-orange-500/40 transition-all duration-300">
+                    <div className="flex lg:justify-end mb-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                          <path d="M16 11C17.66 11 18.99 9.66 18.99 8S17.66 5 16 5C14.34 5 13 6.34 13 8S14.34 11 16 11ZM8 11C9.66 11 10.99 9.66 10.99 8S9.66 5 8 5C6.34 5 5 6.34 5 8S6.34 11 8 11ZM8 13C5.67 13 1 14.17 1 16.5V19H15V16.5C15 14.17 10.33 13 8 13ZM16 13C15.71 13 15.38 13.02 15.03 13.05C16.19 13.89 17 15.02 17 16.5V19H23V16.5C23 14.17 18.33 13 16 13Z" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-white text-2xl lg:text-3xl font-bold mb-3">Strategic Partnerships</h3>
+                    <p className="text-gray-400 text-base lg:text-lg leading-relaxed">
+                      Collaborated with industry leaders to enhance AI curriculum and expand our reach, bringing cutting-edge solutions to a global audience.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Center - Year badge */}
+                <div className="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 w-20 h-20 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full items-center justify-center shadow-lg shadow-orange-500/50 z-10">
+                  <span className="text-white text-xl font-black">2024</span>
+                </div>
+                <div className="lg:hidden mb-4">
+                  <span className="inline-block bg-gradient-to-br from-orange-500 to-yellow-500 text-white text-lg font-black px-6 py-2 rounded-full">2024</span>
+                </div>
+
+                {/* Right side - Empty for alignment */}
+                <div className="flex-1 hidden lg:block" />
+              </motion.div>
             </div>
           </div>
-        </div>
 
-        <div className="flex flex-wrap justify-center gap-12 lg:gap-16">
-          {/* 2022 */}
-          <motion.div 
-            className="flex gap-6 items-start"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0 }}
-          >
-            <p className="text-[#ffffff14] font-black text-7xl lg:text-8xl" style={{ writingMode: 'vertical-rl', textOrientation: 'sideways', transform: 'rotate(180deg)' }}>2022</p>
-            <div className="flex flex-col">
-              <div className="mb-4">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF6453">
-                  <path d="M12 2C6.48 2 3 6.48 3 10.9c0 2.21 1.34 4.39 3.49 5.2L6 18l1.35-4.07c.11-.34.09-.71-.05-1.02-.11-.26-.33-.45-.61-.58L5.75 11.59C4.58 10.97 4 9.57 4 8.1 4 5.07 6.9 2 10.9 2c2.88 0 5.29 1.73 6.23 4.17 1.3-.45 2.74-.72 4.08-.72 2.1 0 4.06 1.47 4.66 3.56-.09-.06-.2-.14-.31-.2l-.3-.1C21.11 6.82 18.77 2 15 2c-2.68 0-5 2.47-5 5.5 0 .91.42 1.73 1.08 2.24-.22.29-.43.61-.62.96-.15.29-.34.58-.56.88-.44.57-.85 1.18-1.25 1.81-.08.13-.16.26-.25.39-.45.7-.89 1.42-1.34 2.15-.04.06-.09.13-.14.19C8.95 14.6 9 16 10.9 16 12 16 12.98 15.65 13.72 14.88 15.22 14 16 12.97 16 11.7 16 9.27 13.73 7 12 7c-1.14 0-2.24.65-2.8 1.66-.64-.94-.75-2.08-.36-3.06C9.09 5.56 10.86 3.47 12 3c2.21 0 4 1.79 4 4s-1.79 4-4 4c-.56 0-1.1-.18-1.57-.49l-2.29-1.34c-.2-.11-.43-.15-.65-.11-.68.08-.77-.71-.67-1.06C9.31 4.69 10.5 2.98 12 2z"></path>
-                </svg>
-              </div>
-              <p className="text-white text-xl mb-2 font-semibold">Official Launch</p>
-              <p className="text-gray-400 text-base">Started our journey in AI training with a dedicated team.</p>
-            </div>
-          </motion.div>
-
-          {/* 2023 */}
-          <motion.div 
-            className="flex gap-6 items-start"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            <p className="text-[#ffffff14] font-black text-7xl lg:text-8xl" style={{ writingMode: 'vertical-rl', textOrientation: 'sideways', transform: 'rotate(180deg)' }}>2023</p>
-            <div className="flex flex-col">
-              <div className="mb-4">
-                <svg width="24" height="24" viewBox="0 0 100 100" fill="#FF6453">
-                  <polygon points="50,20 53,35 70,35 55,45 60,65 50,55 40,65 45,45 30,35 47,35" />
-                </svg>
-              </div>
-              <p className="text-white text-xl mb-2 font-semibold">First Milestone:</p>
-              <p className="text-gray-400 text-base">Completed our first 1000 training sessions with excellent feedback.</p>
-            </div>
-          </motion.div>
-
-          {/* 2024 */}
-          <motion.div 
-            className="flex gap-6 items-start"
+          {/* Bottom CTA */}
+          <motion.div
+            className="text-center mt-20"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
           >
-            <p className="text-[#ffffff14] font-black text-7xl lg:text-8xl" style={{ writingMode: 'vertical-rl', textOrientation: 'sideways', transform: 'rotate(180deg)' }}>2024</p>
-            <div className="flex flex-col">
-              <div className="mb-4">
-                <svg width="24" height="24" viewBox="0 0 100 100" fill="#FF6453">
-                  <circle cx="30" cy="50" r="20" />
-                  <circle cx="70" cy="50" r="20" />
-                </svg>
-              </div>
-              <p className="text-white text-xl mb-2 font-semibold">Partnership</p>
-              <p className="text-gray-400 text-base">Collaborated with industry leaders to enhance AI curriculum.</p>
-            </div>
+            <p className="text-gray-400 text-lg mb-6">Want to be part of our next milestone?</p>
+            <motion.button
+              className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-10 py-4 rounded-lg font-semibold uppercase"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Join Our Journey →
+            </motion.button>
           </motion.div>
         </div>
       </div>
 
       {/* Testimonials Section */}
-      <div className="relative w-full px-8 lg:px-12 py-16 lg:py-20 mt-20 lg:mt-32 mb-20 lg:mb-32">
-        <div className="text-center mb-12">
-          <motion.p 
-            className="text-white text-5xl font-bold"
+      <div className="relative w-full py-16 lg:py-20 mt-20 lg:mt-32 mb-20 lg:mb-32 overflow-hidden">
+        <div className="text-center mb-12 px-8">
+          <motion.p
+            className="text-white text-4xl lg:text-5xl font-bold max-w-4xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -538,64 +867,107 @@ const Home = () => {
           </motion.p>
         </div>
 
-        <div className="flex flex-wrap gap-6 justify-center overflow-x-auto pb-6">
-          {[
-            {
-              name: 'Sakshi Soni',
-              company: '↜ UpWork',
-              img: '/wp-content/themes/openmind/assets/images/img10-1024x683.jpg',
-              text: 'I couldn\'t have asked for a better experience with EverGen AI. They worked with me closely to find the perfect job match. Their industry knowledge and personalized service helped me secure a role at UpWork, where I\'m thriving. Truly a game-changer for my career!'
-            },
-            {
-              name: 'Uday Gupta',
-              company: '⌀ EverGen AI',
-              img: '/wp-content/themes/openmind/assets/images/img12-819x1024.jpg',
-              text: 'Working at EverGenAI has been an incredible experience. The focus on training AI through RLHF has allowed me to grow both professionally and personally. I\'m proud to be part of a team that\'s pushing the boundaries of AI excellence. It\'s exciting to see our impact!"'
-            },
-            {
-              name: 'Riya Sahu',
-              company: '▚ Fiverr',
-              img: '/wp-content/themes/openmind/assets/images/img9-683x1024.jpg',
-              text: 'The team at EverGen AI was incredibly supportive in helping me find the right job. They took the time to understand my skills and career ambitions, leading me to a fantastic opportunity at Fiverr. Their personalized approach made all the difference in my job search.'
-            }
-          ].map((testimonial, i) => (
-            <motion.div 
-              key={i}
-              className="bg-[#1a1a1a] min-h-[50vh] flex flex-col justify-between min-w-[300px] max-w-[350px] rounded-2xl overflow-hidden"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
-              whileHover={{ y: -10 }}
-            >
-              <div className="p-12 flex flex-col items-center">
-                <img src={testimonial.img} alt={testimonial.name} className="w-[70px] h-[70px] rounded-full object-cover border-2 border-white mb-4" />
-                <p className="text-yellow-500 mb-2">★★★★★</p>
-                <p className="text-white text-xl mb-4 font-semibold">{testimonial.name}</p>
-                <p className="text-gray-400 text-base text-center">
-                  {testimonial.text}
-                </p>
-              </div>
-              <div className="bg-orange-500 p-8 text-center">
-                <h4 className="text-white text-lg font-semibold">{testimonial.company}</h4>
-              </div>
-            </motion.div>
-          ))}
+        {/* Continuous Sliding Testimonials */}
+        <div className="relative">
+          <Marquee speed={0.5} pauseOnHover gradient={false}>
+            <div className="flex gap-6">
+              {[
+                {
+                  name: 'Sakshi Soni',
+                  company: '↜ UpWork',
+                  img: '/wp-content/themes/openmind/assets/images/img10-1024x683.jpg',
+                  text: 'I couldn\'t have asked for a better experience with EverGen AI. They worked with me closely to find the perfect job match. Their industry knowledge and personalized service helped me secure a role at UpWork, where I\'m thriving. Truly a game-changer for my career!'
+                },
+                {
+                  name: 'Uday Gupta',
+                  company: '⌀ EverGen AI',
+                  img: '/wp-content/themes/openmind/assets/images/img12-819x1024.jpg',
+                  text: 'Working at EverGenAI has been an incredible experience. The focus on training AI through RLHF has allowed me to grow both professionally and personally. I\'m proud to be part of a team that\'s pushing the boundaries of AI excellence. It\'s exciting to see our impact!'
+                },
+                {
+                  name: 'Riya Sahu',
+                  company: '▚ Fiverr',
+                  img: '/wp-content/themes/openmind/assets/images/img9-683x1024.jpg',
+                  text: 'The team at EverGen AI was incredibly supportive in helping me find the right job. They took the time to understand my skills and career ambitions, leading me to a fantastic opportunity at Fiverr. Their personalized approach made all the difference in my job search.'
+                }
+              ].map((testimonial, i) => (
+                <div
+                  key={i}
+                  className="bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] flex flex-col w-[420px] min-h-[520px] flex-shrink-0 rounded-2xl overflow-hidden border border-orange-500/20 hover:border-orange-500/40 transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/20 mr-6"
+                >
+                  <div className="p-10 flex flex-col items-center">
+                    <div className="relative mb-6">
+                      <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full blur-md opacity-50"></div>
+                      <img
+                        src={testimonial.img}
+                        alt={testimonial.name}
+                        className="relative w-[90px] h-[90px] rounded-full object-cover border-4 border-white/10"
+                      />
+                    </div>
+
+                    <div className="flex gap-1 mb-4">
+                      {[...Array(5)].map((_, j) => (
+                        <svg key={j} width="18" height="18" viewBox="0 0 24 24" fill="#FFC107">
+                          <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" />
+                        </svg>
+                      ))}
+                    </div>
+
+                    <p className="text-white text-2xl mb-3 font-bold">{testimonial.name}</p>
+                    <div className="w-12 h-1 bg-gradient-to-r from-orange-500 to-yellow-500 mb-6 rounded-full"></div>
+
+                    <p className="text-gray-300 text-base text-center leading-relaxed mb-8 whitespace-normal break-words">
+                      "{testimonial.text}"
+                    </p>
+
+                  </div>
+
+                  <div className="bg-gradient-to-r from-orange-500 to-yellow-500 p-5 text-center mt-auto">
+                    <h4 className="text-white text-lg font-bold">{testimonial.company}</h4>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Marquee>
         </div>
+
+        {/* Gradient Overlays for fade effect */}
+        <div className="absolute top-0 left-0 w-40 h-full bg-gradient-to-r from-[#0a0a0a] to-transparent pointer-events-none z-10"></div>
+        <div className="absolute top-0 right-0 w-40 h-full bg-gradient-to-l from-[#0a0a0a] to-transparent pointer-events-none z-10"></div>
       </div>
 
       {/* FAQ Section */}
       <div className="relative px-8 lg:px-12 py-16 lg:py-20">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="p-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <motion.div
+              className="p-12"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
               <p className="text-white font-bold text-5xl mb-6">Most Popular Questions</p>
-              <p className="text-gray-400 text-lg">
+              <p className="text-gray-400 text-lg leading-relaxed">
                 Discover the answers to common inquiries and learn more about how our expert AI training and RLHF solutions can drive success for your business.
               </p>
-            </div>
+              <motion.div
+                className="mt-8"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+              >
+              </motion.div>
+            </motion.div>
 
-            <div className="bg-purple-600 rounded-2xl p-8">
+            <motion.div
+              className="bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] rounded-2xl p-8 border border-orange-500/20"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
               <div className="space-y-4">
                 {[
                   {
@@ -615,26 +987,41 @@ const Home = () => {
                     a: 'With a team of 200+ trained RLHF experts, we ensure that each model undergoes rigorous testing and fine-tuning. We use real-world human feedback to guarantee our models\' quality, efficiency, and alignment with industry standards.'
                   }
                 ].map((faq, i) => (
-                  <details key={i} className="bg-[#1a1a1a] p-8 rounded-xl">
-                    <summary className="text-white text-lg cursor-pointer list-none flex justify-between items-center font-semibold">
-                      {faq.q}
+                  <motion.details
+                    key={i}
+                    className="bg-gradient-to-br from-[#0f0f0f] to-[#1f1f1f] p-6 rounded-xl border border-orange-500/10 hover:border-orange-500/30 transition-all duration-300 group"
+                    initial={{ opacity: 0, x: 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1, duration: 0.5 }}
+                  >
+                    <summary className="text-white text-base lg:text-lg cursor-pointer list-none flex justify-between items-center font-semibold group-hover:text-orange-400 transition-colors duration-300">
+                      <span className="pr-4">{faq.q}</span>
+                      <svg
+                        className="w-6 h-6 flex-shrink-0 transform transition-transform duration-300 group-open:rotate-180"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
                     </summary>
-                    <div className="mt-6 pt-6 border-t border-gray-700">
-                      <p className="text-gray-400 text-base">
+                    <div className="mt-4 pt-4 border-t border-orange-500/20">
+                      <p className="text-gray-400 text-sm lg:text-base leading-relaxed">
                         {faq.a}
                       </p>
                     </div>
-                  </details>
+                  </motion.details>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
 
       {/* CTA Section */}
       <div className="px-6 lg:px-16 py-32">
-        <motion.div 
+        <motion.div
           className="max-w-7xl mx-auto bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] rounded-3xl overflow-hidden"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -655,9 +1042,9 @@ const Home = () => {
               </motion.button>
             </div>
             <div className="h-full">
-              <img 
-                src="/wp-content/themes/openmind/assets/images/silhouette-sky-sunset-skyscraper-cityscape-dusk-1362207-pxhere.com_-1024x699.jpg" 
-                alt="Cityscape" 
+              <img
+                src="/wp-content/themes/openmind/assets/images/silhouette-sky-sunset-skyscraper-cityscape-dusk-1362207-pxhere.com_-1024x699.jpg"
+                alt="Cityscape"
                 className="w-full h-full object-cover min-h-[400px]"
               />
             </div>
