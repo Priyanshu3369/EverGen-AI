@@ -471,6 +471,7 @@ const Home = () => {
                   </motion.li>
                 ))}
               </ul>
+              <Link to="/about">
               <motion.button
                 className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-10 py-4 rounded-lg font-semibold uppercase"
                 whileHover={{ scale: 1.05 }}
@@ -478,6 +479,7 @@ const Home = () => {
               >
                 Discover more →
               </motion.button>
+              </Link>
             </motion.div>
           </div>
         </div>
