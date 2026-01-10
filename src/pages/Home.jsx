@@ -193,11 +193,13 @@ const Home = () => {
 
       {/* START NOW Cover Section */}
       <motion.div
-        className="relative h-[70vh] lg:h-[80vh] bg-[#634c40] bg-cover bg-center bg-no-repeat overflow-hidden"
+        className="relative h-[70vh] lg:h-[80vh] bg-[#634c40] overflow-hidden"
         style={{
           backgroundImage: 'url(/wp-content/themes/openmind/assets/images/img-45.jpg)',
-          backgroundAttachment: 'fixed',
-          backgroundPosition: '50% 50%'
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: window.innerWidth >= 1024 ? 'fixed' : 'scroll'
         }}
       >
         <motion.div
