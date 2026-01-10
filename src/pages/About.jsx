@@ -60,7 +60,7 @@ const About = () => {
           className="relative px-4 sm:px-6 lg:px-12 py-16 sm:py-20 pt-24 sm:pt-32 z-10 max-w-5xl mx-auto text-center"
           style={{ transform: `translateY(${scrollY * 0.15}px)` }}
         >
-          <h1 className="text-white font-outfit font-medium text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 sm:mb-8 animate-fade-in leading-tight px-2">
+          <h1 className="text-white font-outfit font-medium text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 sm:mb-8 animate-fade-in leading-tight px-2" style={{textShadow: '2px 2px 8px rgba(0,0,0,0.8)'}}>
             Revealing the essence of our successful business
           </h1>
           <div className="w-16 sm:w-20 lg:w-24 h-1 bg-gradient-to-r from-custom-2 to-custom-7 mx-auto animate-slide-up"></div>
