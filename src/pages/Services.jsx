@@ -186,9 +186,19 @@ const Services = () => {
         </div>
       </div>
 
-      {/* Custom AI Solutions Section - Redesigned */}
-      <div className="relative px-8 lg:px-16 py-20 lg:py-32 bg-gradient-to-b from-custom-1 to-custom-9/30">
-        <div className="max-w-7xl mx-auto">
+      {/* Custom AI Solutions Section - Professional Redesign */}
+      <div className="relative px-4 sm:px-6 md:px-8 lg:px-16 py-16 md:py-24 lg:py-32 bg-custom-1 overflow-hidden">
+        {/* Subtle background grid */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `linear-gradient(rgba(255, 190, 78, 0.5) 1px, transparent 1px),
+                           linear-gradient(90deg, rgba(255, 190, 78, 0.5) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px'
+        }}></div>
+
+        {/* Ambient light effect */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-custom-2/5 rounded-full filter blur-3xl opacity-30"></div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <div 
             id="solutions-section" 
             data-animate
@@ -196,41 +206,131 @@ const Services = () => {
               isVisible['solutions-section'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
             }`}
           >
-            {/* Header */}
-            <div className="text-center mb-16">
-              <h2 className="text-white text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-                Custom and Bespoke AI Solutions
+            {/* Header Section */}
+            <div className="max-w-4xl mx-auto text-center mb-12 md:mb-16 lg:mb-20">
+              <span className="inline-block text-custom-2 text-xs md:text-sm font-semibold tracking-widest uppercase mb-4 md:mb-6">
+                Our Expertise
+              </span>
+              <h2 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight">
+                Tailored AI Solutions
               </h2>
-              <p className="text-custom-6 text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed">
-                EverGen AI offers tailored AI services designed to meet your specific business needs. From model creation to optimization, we ensure your AI solutions align with your goals.
+              <div className="w-16 md:w-20 h-1 bg-custom-2 mx-auto mb-4 md:mb-6"></div>
+              <p className="text-custom-6 text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl mx-auto px-4">
+                Enterprise-grade AI services designed to accelerate innovation and drive measurable business outcomes across your organization.
               </p>
             </div>
-
-            {/* Services Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
-              {[
-                { title: 'Data Annotation', delay: 0 },
-                { title: 'Data Labeling', delay: 100 },
-                { title: 'Model Evals', delay: 200 },
-                { title: 'Code Gen Models', delay: 300 },
-                { title: 'Vision Modeling', delay: 400 },
-                { title: 'LLM Assess', delay: 500 }
-              ].map((item, index) => (
-                <div 
-                  key={item.title}
-                  className={`bg-custom-9/50 backdrop-blur-sm border border-custom-8/30 p-8 hover:border-custom-2 hover:bg-custom-9/80 transition-all duration-500 cursor-pointer group ${
-                    isVisible['solutions-section'] ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
-                  }`}
-                  style={{ transitionDelay: `${item.delay}ms` }}
-                >
-                  <div className="flex items-start space-x-4">
-                    <span className="inline-block w-2 h-2 bg-custom-2 rounded-full mt-2 group-hover:scale-150 transition-transform"></span>
-                    <div className="flex-1">
-                      <h3 className="text-white text-lg lg:text-xl font-semibold group-hover:text-custom-2 transition-colors duration-300">
-                        {item.title}
-                      </h3>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 mb-8 md:mb-12">
+              <div 
+                className={`lg:col-span-8 bg-gradient-to-br from-custom-9 to-custom-9/50 border border-custom-8/30 overflow-hidden group cursor-pointer transition-all duration-700 ${
+                  isVisible['solutions-section'] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
+                }`}
+              >
+                <div className="p-6 sm:p-8 md:p-10 lg:p-12 h-full flex flex-col">
+                  <div className="flex items-start justify-between mb-6 md:mb-8">
+                    <div className="w-12 h-12 md:w-16 md:h-16 bg-custom-2/10 flex items-center justify-center group-hover:bg-custom-2/20 transition-all duration-500">
+                      <svg className="w-6 h-6 md:w-8 md:h-8 text-custom-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
                     </div>
                   </div>
+                  
+                  <h3 className="text-white text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 leading-tight">
+                    Data Annotation & Labeling
+                  </h3>
+                  
+                  <p className="text-custom-6 text-sm sm:text-base md:text-lg leading-relaxed mb-6 md:mb-8 flex-grow">
+                    High-precision data annotation services that power machine learning models with expertly labeled datasets. Our team ensures accuracy, consistency, and scalability across text, image, video, and audio data.
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-6 md:mb-8">
+                    <span className="px-3 py-1 bg-custom-8/30 text-custom-6 text-xs md:text-sm">Image Classification</span>
+                    <span className="px-3 py-1 bg-custom-8/30 text-custom-6 text-xs md:text-sm">Text Annotation</span>
+                    <span className="px-3 py-1 bg-custom-8/30 text-custom-6 text-xs md:text-sm">Video Labeling</span>
+                  </div>
+                  
+                  <div className="flex items-center text-custom-2 font-semibold text-sm md:text-base group-hover:gap-3 gap-2 transition-all duration-300">
+                  </div>
+                </div>
+              </div>
+
+              {/* Side Card 1 */}
+              <div 
+                className={`lg:col-span-4 bg-custom-9/50 border border-custom-8/30 overflow-hidden group cursor-pointer hover:border-custom-2/50 transition-all duration-500 ${
+                  isVisible['solutions-section'] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
+                }`}
+                style={{ transitionDelay: '100ms' }}
+              >
+                <div className="p-6 sm:p-8 h-full flex flex-col">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-custom-7/10 flex items-center justify-center mb-6 group-hover:bg-custom-7/20 transition-all duration-500">
+                    <svg className="w-5 h-5 md:w-6 md:h-6 text-custom-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-white text-lg sm:text-xl md:text-2xl font-bold mb-3 md:mb-4">Model Evaluation</h3>
+                  <p className="text-custom-6 text-sm sm:text-base leading-relaxed mb-4 md:mb-6 flex-grow">
+                    Comprehensive assessment frameworks to measure and optimize AI model performance with precision.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Services Grid - 4 Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              {[
+                {
+                  title: 'Code Generation',
+                  description: 'Advanced AI-powered code generation and optimization tools.',
+                  icon: (
+                    <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                  ),
+                  delay: 200
+                },
+                {
+                  title: 'Vision Modeling',
+                  description: 'State-of-the-art computer vision solutions for complex tasks.',
+                  icon: (
+                    <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  ),
+                  delay: 300
+                },
+                {
+                  title: 'LLM Assessment',
+                  description: 'In-depth evaluation and optimization of language models.',
+                  icon: (
+                    <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                  ),
+                  delay: 400
+                },
+                {
+                  title: 'Custom Solutions',
+                  description: 'Bespoke AI development tailored to your unique needs.',
+                  icon: (
+                    <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                    </svg>
+                  ),
+                  delay: 500
+                }
+              ].map((service, index) => (
+                <div
+                  key={service.title}
+                  className={`bg-custom-9/30 border border-custom-8/30 p-6 md:p-8 group cursor-pointer hover:bg-custom-9/50 hover:border-custom-8/50 transition-all duration-500 ${
+                    isVisible['solutions-section'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                  }`}
+                  style={{ transitionDelay: `${service.delay}ms` }}
+                >
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-custom-2/10 flex items-center justify-center mb-4 md:mb-6 text-custom-2 group-hover:bg-custom-2/20 transition-all duration-500">
+                    {service.icon}
+                  </div>
+                  <h3 className="text-white text-base sm:text-lg md:text-xl font-bold mb-2 md:mb-3">{service.title}</h3>
+                  <p className="text-custom-6 text-xs sm:text-sm md:text-base leading-relaxed">{service.description}</p>
                 </div>
               ))}
             </div>

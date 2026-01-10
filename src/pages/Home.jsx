@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Marquee = ({ children, speed = 0.5 }) => {
   return (
@@ -375,7 +376,7 @@ const Home = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            We believe in excellence through hard work and find ourselves at a pivotal moment. We aim to play a meaningful role in shaping our collective future. As a new-age AI solutions firm, we boast an ultra-high-quality talent pool from India, specializing in RLHF—think IITians, PhDs, and artists. Whether you need world-class experts for RLHF or a cutting-edge platform to develop your customized AI model, EverGen AI has the perfect solution for you.
+            We believe in excellence through hard work and find ourselves at a pivotal moment. We aim to play a meaningful role in shaping our collective future. As a new-age AI solutions firm, we boast an ultra-high-quality talent pool from India, specializing in RLHF think IITians, PhDs, and artists. Whether you need world-class experts for RLHF or a cutting-edge platform to develop your customized AI model, EverGen AI has the perfect solution for you.
           </motion.p>
 
           {/* Team Images */}
@@ -494,7 +495,7 @@ const Home = () => {
             >
               <h2 className="text-white text-4xl font-bold mb-6">Revolutionizing with Generative AI Innovation</h2>
               <p className="text-gray-400 text-lg leading-relaxed">
-                In the competitive world of talent acquisition, EverGen delivers cutting-edge AI solutions that redefine the recruitment process. Our AI-powered recruiting platform leverages advanced algorithms and machine learning to streamline candidate sourcing, screening, and selection. By analyzing extensive data—resumes, social profiles, and job requirements—our platform intelligently matches the right candidates to the right opportunities. Through automation and predictive analytics, we enhance efficiency, minimize bias, and elevate the quality of hires.
+                In the competitive world of talent acquisition, EverGen delivers cutting-edge AI solutions that redefine the recruitment process. Our AI-powered recruiting platform leverages advanced algorithms and machine learning to streamline candidate sourcing, screening, and selection. By analyzing extensive data resumes, social profiles, and job requirements our platform intelligently matches the right candidates to the right opportunities. Through automation and predictive analytics, we enhance efficiency, minimize bias, and elevate the quality of hires.
               </p>
             </motion.div>
 
@@ -604,7 +605,7 @@ const Home = () => {
                 >
                   {service.desc}
                 </motion.p>
-
+                <Link to="/services">
                 <motion.button
                   className="text-white text-xl border-b-2 border-white pb-2 hover:border-orange-400 hover:text-orange-400 transition-colors duration-300"
                   initial={{ opacity: 0, x: -20 }}
@@ -615,6 +616,7 @@ const Home = () => {
                 >
                   View Service →
                 </motion.button>
+                </Link>
               </motion.div>
             </div>
           ))}
@@ -627,6 +629,7 @@ const Home = () => {
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.8 }}
           >
+            <Link to="/services">
             <motion.button
               className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-16 py-4 rounded-lg font-semibold uppercase"
               whileHover={{ scale: 1.05 }}
@@ -634,6 +637,7 @@ const Home = () => {
             >
               View all services
             </motion.button>
+            </Link>
           </motion.div>
         </div>
       </div>
@@ -1033,13 +1037,15 @@ const Home = () => {
               <p className="text-gray-400 text-xl mb-8">
                 Have an inquiry for us? Please select a team you would like to reach and provide our information below.
               </p>
-              <motion.button
-                className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-12 py-5 rounded-lg font-semibold uppercase text-lg border-2 border-[#0a0a0a]"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Get in touch
-              </motion.button>
+              <Link to="/contact">
+                <motion.div
+                  className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-12 py-5 rounded-lg font-semibold uppercase text-lg border-2 border-[#0a0a0a] inline-block cursor-pointer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Get in touch
+                </motion.div>
+              </Link>
             </div>
             <div className="h-full">
               <img
