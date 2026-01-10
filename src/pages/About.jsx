@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-
+import { Link } from 'react-router-dom';
 const About = () => {
   const [scrollY, setScrollY] = useState(0);
   const [visibleSections, setVisibleSections] = useState(new Set());
@@ -193,7 +193,9 @@ const About = () => {
                 <div className="relative flex flex-col justify-between h-full">
                   <div className="flex justify-between items-start mb-4 sm:mb-6">
                     <p className="text-custom-7 text-xs sm:text-sm uppercase tracking-wider">{service.title}</p>
+                    <Link to="/services">
                     <p className="text-custom-7 text-xl sm:text-2xl group-hover:translate-x-2 group-hover:scale-125 transition-all duration-300">→</p>
+                    </Link>
                   </div>
                   <h3 className="text-white font-medium text-base sm:text-lg lg:text-xl leading-relaxed group-hover:text-custom-7 transition-colors duration-300">
                     {service.desc}

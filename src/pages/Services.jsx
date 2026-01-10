@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-
+import { Link } from 'react-router-dom';
 const Services = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState({});
@@ -37,88 +37,50 @@ const Services = () => {
 
   return (
     <div className="relative bg-custom-1 overflow-hidden">
-      {/* Hero Section with Parallax Background */}
+      {/* Hero Section with Image Background */}
       <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Parallax Background Layers */}
-        <div 
+        {/* Background Image with Parallax */}
+        <div
           className="absolute inset-0 z-0"
           style={{
+            backgroundImage: 'url(/wp-content/themes/openmind/assets/images/img53.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
             transform: `translateY(${scrollY * 0.5}px)`,
             transition: 'transform 0.1s ease-out'
           }}
         >
-          {/* Dark overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-custom-1 z-10"></div>
-          
-          {/* Neural network pattern background */}
-          <div 
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `radial-gradient(circle at 20% 50%, rgba(255, 190, 78, 0.1) 0%, transparent 50%),
-                               radial-gradient(circle at 80% 80%, rgba(255, 190, 78, 0.15) 0%, transparent 50%),
-                               linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)`,
-            }}
-          ></div>
-
-          {/* Animated grid */}
-          <div 
-            className="absolute inset-0 opacity-20"
-            style={{
-              backgroundImage: `linear-gradient(rgba(255, 190, 78, 0.1) 1px, transparent 1px),
-                               linear-gradient(90deg, rgba(255, 190, 78, 0.1) 1px, transparent 1px)`,
-              backgroundSize: '50px 50px',
-              transform: `translateY(${scrollY * 0.3}px)`
-            }}
-          ></div>
-        </div>
-
-        {/* Floating particles */}
-        <div className="absolute inset-0 z-0">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-custom-2 rounded-full opacity-40"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animation: `float ${5 + Math.random() * 10}s ease-in-out infinite`,
-                animationDelay: `${Math.random() * 5}s`
-              }}
-            ></div>
-          ))}
+          {/* Dark overlay gradient for better text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-custom-1 z-10"></div>
         </div>
 
         {/* Hero Content */}
-        <div 
+        <div
           className="relative z-20 text-center max-w-4xl mx-auto px-8 lg:px-16"
           style={{
             transform: `translateY(${scrollY * 0.2}px)`,
             opacity: 1 - scrollY / 500
           }}
         >
-          <h1 className="text-white font-outfit font-medium text-6xl lg:text-8xl mb-6 animate-fade-in">
+          <h1 className="text-white font-outfit font-medium text-6xl lg:text-8xl mb-6 animate-fade-in drop-shadow-2xl">
             Services
           </h1>
-          <p className="text-custom-6 text-base lg:text-xl max-w-2xl mx-auto animate-fade-in-delay">
+          <p className="text-white/90 text-base lg:text-xl max-w-2xl mx-auto animate-fade-in-delay drop-shadow-lg">
             Comprehensive AI solutions tailored to your business needs
           </p>
         </div>
-
-        {/* Gradient orbs */}
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-custom-2 rounded-full filter blur-3xl opacity-20 animate-pulse-slow"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-custom-7 rounded-full filter blur-3xl opacity-20 animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
       </div>
 
       {/* Services Overview Cards with Popup Animation */}
       <div className="relative px-8 lg:px-16 py-20 lg:py-32 bg-custom-1">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Service Card 1 */}
-          <div 
-            id="card-1" 
+          <div
+            id="card-1"
             data-animate
-            className={`bg-custom-9 p-10 lg:p-12 flex flex-col transition-all duration-700 transform hover:scale-105 hover:shadow-2xl hover:-translate-y-2 ${
-              isVisible['card-1'] ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-            }`}
+            className={`bg-custom-9 p-10 lg:p-12 flex flex-col transition-all duration-700 transform hover:scale-105 hover:shadow-2xl hover:-translate-y-2 ${isVisible['card-1'] ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+              }`}
             style={{ transitionDelay: '0ms' }}
           >
             <p className="text-custom-6 text-xs tracking-widest mb-6">01</p>
@@ -130,19 +92,20 @@ const Services = () => {
             </p>
             <div className="mt-auto">
               <hr className="border-custom-8 mb-4" />
-              <p className="text-white text-xs uppercase tracking-wider hover:tracking-widest transition-all duration-300 cursor-pointer">
-                Discover more →
-              </p>
+              <Link to="/contact" className="cursor-pointer">
+                <p className="text-white text-xs uppercase tracking-wider hover:tracking-widest transition-all duration-300 cursor-pointer">
+                  Discover more →
+                </p>
+              </Link>
             </div>
           </div>
 
           {/* Service Card 2 */}
-          <div 
-            id="card-2" 
+          <div
+            id="card-2"
             data-animate
-            className={`bg-gradient-to-br from-custom-2 to-custom-7 p-10 lg:p-12 flex flex-col transition-all duration-700 transform hover:scale-105 hover:shadow-2xl hover:-translate-y-2 ${
-              isVisible['card-2'] ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-            }`}
+            className={`bg-gradient-to-br from-custom-2 to-custom-7 p-10 lg:p-12 flex flex-col transition-all duration-700 transform hover:scale-105 hover:shadow-2xl hover:-translate-y-2 ${isVisible['card-2'] ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+              }`}
             style={{ transitionDelay: '150ms' }}
           >
             <p className="text-custom-5 text-xs tracking-widest mb-6">02</p>
@@ -153,20 +116,21 @@ const Services = () => {
               Enhance your AI model's performance through expert training, optimization, and real-world impact, ensuring accurate and efficient results.
             </p>
             <div className="mt-auto">
-              <hr className="border-custom-5 mb-4" />
-              <p className="text-white text-xs uppercase tracking-wider hover:tracking-widest transition-all duration-300 cursor-pointer">
-                Discover more →
-              </p>
+              <hr className="border-custom-8 mb-4" />
+              <Link to="/contact" className="cursor-pointer">
+                <p className="text-white text-xs uppercase tracking-wider hover:tracking-widest transition-all duration-300 cursor-pointer">
+                  Discover more →
+                </p>
+              </Link>
             </div>
           </div>
 
           {/* Service Card 3 */}
-          <div 
-            id="card-3" 
+          <div
+            id="card-3"
             data-animate
-            className={`bg-custom-9 p-10 lg:p-12 flex flex-col transition-all duration-700 transform hover:scale-105 hover:shadow-2xl hover:-translate-y-2 ${
-              isVisible['card-3'] ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-            }`}
+            className={`bg-custom-9 p-10 lg:p-12 flex flex-col transition-all duration-700 transform hover:scale-105 hover:shadow-2xl hover:-translate-y-2 ${isVisible['card-3'] ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+              }`}
             style={{ transitionDelay: '300ms' }}
           >
             <p className="text-custom-6 text-xs tracking-widest mb-6">03</p>
@@ -178,9 +142,11 @@ const Services = () => {
             </p>
             <div className="mt-auto">
               <hr className="border-custom-8 mb-4" />
-              <p className="text-white text-xs uppercase tracking-wider hover:tracking-widest transition-all duration-300 cursor-pointer">
-                Discover more →
-              </p>
+              <Link to="/contact" className="cursor-pointer">
+                <p className="text-white text-xs uppercase tracking-wider hover:tracking-widest transition-all duration-300 cursor-pointer">
+                  Discover more →
+                </p>
+              </Link>
             </div>
           </div>
         </div>
@@ -199,12 +165,11 @@ const Services = () => {
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-custom-2/5 rounded-full filter blur-3xl opacity-30"></div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div 
-            id="solutions-section" 
+          <div
+            id="solutions-section"
             data-animate
-            className={`transition-all duration-1000 ${
-              isVisible['solutions-section'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-            }`}
+            className={`transition-all duration-1000 ${isVisible['solutions-section'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+              }`}
           >
             {/* Header Section */}
             <div className="max-w-4xl mx-auto text-center mb-12 md:mb-16 lg:mb-20">
@@ -220,10 +185,9 @@ const Services = () => {
               </p>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 mb-8 md:mb-12">
-              <div 
-                className={`lg:col-span-8 bg-gradient-to-br from-custom-9 to-custom-9/50 border border-custom-8/30 overflow-hidden group cursor-pointer transition-all duration-700 ${
-                  isVisible['solutions-section'] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
-                }`}
+              <div
+                className={`lg:col-span-8 bg-gradient-to-br from-custom-9 to-custom-9/50 border border-custom-8/30 overflow-hidden group cursor-pointer transition-all duration-700 ${isVisible['solutions-section'] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
+                  }`}
               >
                 <div className="p-6 sm:p-8 md:p-10 lg:p-12 h-full flex flex-col">
                   <div className="flex items-start justify-between mb-6 md:mb-8">
@@ -233,31 +197,30 @@ const Services = () => {
                       </svg>
                     </div>
                   </div>
-                  
+
                   <h3 className="text-white text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 leading-tight">
                     Data Annotation & Labeling
                   </h3>
-                  
+
                   <p className="text-custom-6 text-sm sm:text-base md:text-lg leading-relaxed mb-6 md:mb-8 flex-grow">
                     High-precision data annotation services that power machine learning models with expertly labeled datasets. Our team ensures accuracy, consistency, and scalability across text, image, video, and audio data.
                   </p>
-                  
+
                   <div className="flex flex-wrap gap-2 mb-6 md:mb-8">
                     <span className="px-3 py-1 bg-custom-8/30 text-custom-6 text-xs md:text-sm">Image Classification</span>
                     <span className="px-3 py-1 bg-custom-8/30 text-custom-6 text-xs md:text-sm">Text Annotation</span>
                     <span className="px-3 py-1 bg-custom-8/30 text-custom-6 text-xs md:text-sm">Video Labeling</span>
                   </div>
-                  
+
                   <div className="flex items-center text-custom-2 font-semibold text-sm md:text-base group-hover:gap-3 gap-2 transition-all duration-300">
                   </div>
                 </div>
               </div>
 
               {/* Side Card 1 */}
-              <div 
-                className={`lg:col-span-4 bg-custom-9/50 border border-custom-8/30 overflow-hidden group cursor-pointer hover:border-custom-2/50 transition-all duration-500 ${
-                  isVisible['solutions-section'] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
-                }`}
+              <div
+                className={`lg:col-span-4 bg-custom-9/50 border border-custom-8/30 overflow-hidden group cursor-pointer hover:border-custom-2/50 transition-all duration-500 ${isVisible['solutions-section'] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
+                  }`}
                 style={{ transitionDelay: '100ms' }}
               >
                 <div className="p-6 sm:p-8 h-full flex flex-col">
@@ -321,9 +284,8 @@ const Services = () => {
               ].map((service, index) => (
                 <div
                   key={service.title}
-                  className={`bg-custom-9/30 border border-custom-8/30 p-6 md:p-8 group cursor-pointer hover:bg-custom-9/50 hover:border-custom-8/50 transition-all duration-500 ${
-                    isVisible['solutions-section'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                  }`}
+                  className={`bg-custom-9/30 border border-custom-8/30 p-6 md:p-8 group cursor-pointer hover:bg-custom-9/50 hover:border-custom-8/50 transition-all duration-500 ${isVisible['solutions-section'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                    }`}
                   style={{ transitionDelay: `${service.delay}ms` }}
                 >
                   <div className="w-10 h-10 md:w-12 md:h-12 bg-custom-2/10 flex items-center justify-center mb-4 md:mb-6 text-custom-2 group-hover:bg-custom-2/20 transition-all duration-500">
@@ -343,7 +305,7 @@ const Services = () => {
         {/* Gradient fade edges */}
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-custom-1 to-transparent z-10"></div>
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-custom-1 to-transparent z-10"></div>
-        
+
         <div className="animate-marquee-fast whitespace-nowrap">
           <h4 className="text-white font-outfit font-black uppercase inline-block" style={{ fontSize: 'clamp(80px, 15vw, 200px)', opacity: 0.15 }}>
             SERVICES • SERVICES • SERVICES • SERVICES • SERVICES • SERVICES •
@@ -355,19 +317,18 @@ const Services = () => {
       <div className="relative px-8 lg:px-16 py-20 lg:py-32">
         <div className="max-w-7xl mx-auto space-y-32">
           {/* Service 1 */}
-          <div 
-            id="detail-1" 
+          <div
+            id="detail-1"
             data-animate
-            className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center transition-all duration-1000 ${
-              isVisible['detail-1'] ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-90 -rotate-3'
-            }`}
+            className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center transition-all duration-1000 ${isVisible['detail-1'] ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-90 -rotate-3'
+              }`}
           >
             <div className="overflow-hidden relative group">
               <div className="absolute inset-0 bg-custom-2/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <img 
-                src="/wp-content/themes/openmind/assets/images/img56-1024x683.jpg" 
-                alt="AI Talent" 
-                className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110" 
+              <img
+                src="/wp-content/themes/openmind/assets/images/img56-1024x683.jpg"
+                alt="AI Talent"
+                className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110"
               />
             </div>
             <div>
@@ -381,19 +342,18 @@ const Services = () => {
           </div>
 
           {/* Service 2 */}
-          <div 
-            id="detail-2" 
+          <div
+            id="detail-2"
             data-animate
-            className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center transition-all duration-1000 ${
-              isVisible['detail-2'] ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-90 rotate-3'
-            }`}
+            className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center transition-all duration-1000 ${isVisible['detail-2'] ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-90 rotate-3'
+              }`}
           >
             <div className="overflow-hidden lg:order-2 relative group">
               <div className="absolute inset-0 bg-custom-7/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <img 
-                src="/wp-content/themes/openmind/assets/images/img54-2-1024x683.jpg" 
-                alt="Model Training" 
-                className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110" 
+              <img
+                src="/wp-content/themes/openmind/assets/images/img54-2-1024x683.jpg"
+                alt="Model Training"
+                className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110"
               />
             </div>
             <div className="lg:order-1">
@@ -407,19 +367,18 @@ const Services = () => {
           </div>
 
           {/* Service 3 */}
-          <div 
-            id="detail-3" 
+          <div
+            id="detail-3"
             data-animate
-            className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center transition-all duration-1000 ${
-              isVisible['detail-3'] ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-90 -rotate-3'
-            }`}
+            className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center transition-all duration-1000 ${isVisible['detail-3'] ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-90 -rotate-3'
+              }`}
           >
             <div className="overflow-hidden relative group">
               <div className="absolute inset-0 bg-custom-2/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <img 
-                src="/wp-content/themes/openmind/assets/images/silhouette-sky-sunset-skyscraper-cityscape-dusk-1362207-pxhere.com_-1024x699.jpg" 
-                alt="Custom Solutions" 
-                className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110" 
+              <img
+                src="/wp-content/themes/openmind/assets/images/silhouette-sky-sunset-skyscraper-cityscape-dusk-1362207-pxhere.com_-1024x699.jpg"
+                alt="Custom Solutions"
+                className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110"
               />
             </div>
             <div>

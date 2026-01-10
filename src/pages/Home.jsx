@@ -99,42 +99,42 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="relative bg-[#0a0a0a] overflow-hidden">
+    <div className="relative bg-black overflow-hidden">
       {/* Background grid pattern */}
       <div
-        className="fixed inset-0 opacity-10 pointer-events-none"
+        className="fixed inset-0 pointer-events-none z-0"
         style={{
           backgroundImage: `
-            linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '60px 60px',
+      linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)
+    `,
+          backgroundSize: '100px 100px',
         }}
       />
 
       {/* Animated gradient orbs */}
       <motion.div
-        className="fixed top-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none"
+        className="fixed -top-64 -left-64 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
         style={{
-          background: 'radial-gradient(circle, rgba(248,112,96,0.4) 0%, transparent 70%)',
-          filter: 'blur(80px)',
+          background: 'radial-gradient(circle, rgba(248,112,96,0.4) 0%, transparent 90%)',
+          filter: 'blur(30px)',
         }}
         animate={{
           x: [0, 100, 0],
           y: [0, 50, 0],
         }}
         transition={{
-          duration: 20,
+          duration: 25,
           repeat: Infinity,
           ease: "easeInOut"
         }}
       />
 
       <motion.div
-        className="fixed bottom-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none"
+        className="fixed -bottom-32 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
         style={{
-          background: 'radial-gradient(circle, rgba(255,190,78,0.3) 0%, transparent 70%)',
-          filter: 'blur(80px)',
+          background: 'radial-gradient(circle, rgba(255,190,78,0.6) 0%, transparent 50%)',
+          filter: 'blur(30px)',
         }}
         animate={{
           x: [0, -100, 0],
@@ -152,119 +152,6 @@ const Home = () => {
         className="relative min-h-screen flex items-center justify-center px-6 lg:px-16 overflow-hidden"
         style={{ opacity: heroOpacity, y: heroY }}
       >
-        {/* Animated Grid Background */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Animated diagonal lines */}
-          {[...Array(5)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute h-px bg-gradient-to-r from-transparent via-orange-500/20 to-transparent"
-              style={{
-                width: '200%',
-                top: `${20 + i * 20}%`,
-                left: '-50%',
-              }}
-              animate={{
-                x: ['0%', '50%'],
-                opacity: [0.2, 0.5, 0.2],
-              }}
-              transition={{
-                duration: 8 + i * 2,
-                repeat: Infinity,
-                ease: "linear",
-                delay: i * 0.5,
-              }}
-            />
-          ))}
-
-          {/* Floating particles */}
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={`particle-${i}`}
-              className="absolute w-1 h-1 bg-orange-400 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -30, 0],
-                x: [0, Math.random() * 20 - 10, 0],
-                opacity: [0, 1, 0],
-                scale: [0, 1.5, 0],
-              }}
-              transition={{
-                duration: 4 + Math.random() * 4,
-                repeat: Infinity,
-                delay: Math.random() * 5,
-                ease: "easeInOut",
-              }}
-            />
-          ))}
-
-          {/* Animated circles */}
-          {[...Array(3)].map((_, i) => (
-            <motion.div
-              key={`circle-${i}`}
-              className="absolute border border-orange-500/10 rounded-full"
-              style={{
-                width: `${300 + i * 200}px`,
-                height: `${300 + i * 200}px`,
-                left: '50%',
-                top: '50%',
-                x: '-50%',
-                y: '-50%',
-              }}
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.1, 0.3, 0.1],
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: 20 + i * 5,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          ))}
-
-          {/* Pulsing dots grid */}
-          <div className="absolute inset-0 opacity-20">
-            {[...Array(8)].map((_, row) => (
-              <div key={`row-${row}`} className="flex justify-around">
-                {[...Array(12)].map((_, col) => (
-                  <motion.div
-                    key={`dot-${row}-${col}`}
-                    className="w-1 h-1 bg-yellow-500 rounded-full my-16"
-                    animate={{
-                      opacity: [0.2, 0.8, 0.2],
-                      scale: [1, 1.5, 1],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      delay: (row + col) * 0.1,
-                      ease: "easeInOut",
-                    }}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
-
-          {/* Scanning line effect */}
-          <motion.div
-            className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-400/50 to-transparent"
-            animate={{
-              top: ['0%', '100%'],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        </div>
-
         <div className="max-w-5xl mx-auto text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -276,8 +163,13 @@ const Home = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.2 }}
+              whileHover={{
+                textShadow: "0 0 40px rgba(255,190,78,0.9), 0 0 80px rgba(248,112,96,0.7), 0 0 120px rgba(255,190,78,0.5)"
+              }}
             >
-              EVERGEN AI
+              EVERGEN
+              <br />
+              AI
             </motion.h1>
             <motion.p
               className="text-gray-400 text-xl lg:text-2xl"
@@ -332,15 +224,6 @@ const Home = () => {
             >
               START NOW
             </motion.h2>
-            <motion.p
-              className="text-white text-xl lg:text-2xl mt-8 font-light tracking-wide"
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-            >
-              Begin Your AI Journey Today
-            </motion.p>
           </div>
         </motion.div>
       </motion.div>
@@ -472,13 +355,13 @@ const Home = () => {
                 ))}
               </ul>
               <Link to="/about">
-              <motion.button
-                className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-10 py-4 rounded-lg font-semibold uppercase"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Discover more →
-              </motion.button>
+                <motion.button
+                  className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-10 py-4 rounded-lg font-semibold uppercase"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Discover more →
+                </motion.button>
               </Link>
             </motion.div>
           </div>
@@ -608,16 +491,16 @@ const Home = () => {
                   {service.desc}
                 </motion.p>
                 <Link to="/services">
-                <motion.button
-                  className="text-white text-xl border-b-2 border-white pb-2 hover:border-orange-400 hover:text-orange-400 transition-colors duration-300"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.8 }}
-                  whileHover={{ x: 10 }}
-                >
-                  View Service →
-                </motion.button>
+                  <motion.button
+                    className="text-white text-xl border-b-2 border-white pb-2 hover:border-orange-400 hover:text-orange-400 transition-colors duration-300"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.8 }}
+                    whileHover={{ x: 10 }}
+                  >
+                    View Service →
+                  </motion.button>
                 </Link>
               </motion.div>
             </div>
@@ -632,13 +515,13 @@ const Home = () => {
             transition={{ duration: 0.8 }}
           >
             <Link to="/services">
-            <motion.button
-              className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-16 py-4 rounded-lg font-semibold uppercase"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              View all services
-            </motion.button>
+              <motion.button
+                className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-16 py-4 rounded-lg font-semibold uppercase"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                View all services
+              </motion.button>
             </Link>
           </motion.div>
         </div>
@@ -850,13 +733,13 @@ const Home = () => {
           >
             <p className="text-gray-400 text-lg mb-6">Want to be part of our next milestone?</p>
             <Link to="/contact">
-            <motion.button
-              className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-10 py-4 rounded-lg font-semibold uppercase"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Join Our Journey →
-            </motion.button>
+              <motion.button
+                className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-10 py-4 rounded-lg font-semibold uppercase"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Join Our Journey →
+              </motion.button>
             </Link>
           </motion.div>
         </div>
@@ -1005,14 +888,6 @@ const Home = () => {
                   >
                     <summary className="text-white text-base lg:text-lg cursor-pointer list-none flex justify-between items-center font-semibold group-hover:text-orange-400 transition-colors duration-300">
                       <span className="pr-4">{faq.q}</span>
-                      <svg
-                        className="w-6 h-6 flex-shrink-0 transform transition-transform duration-300 group-open:rotate-180"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
                     </summary>
                     <div className="mt-4 pt-4 border-t border-orange-500/20">
                       <p className="text-gray-400 text-sm lg:text-base leading-relaxed">
