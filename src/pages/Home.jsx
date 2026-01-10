@@ -847,6 +847,7 @@ const Home = () => {
             transition={{ delay: 0.4 }}
           >
             <p className="text-gray-400 text-lg mb-6">Want to be part of our next milestone?</p>
+            <Link to="/contact">
             <motion.button
               className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-10 py-4 rounded-lg font-semibold uppercase"
               whileHover={{ scale: 1.05 }}
@@ -854,6 +855,7 @@ const Home = () => {
             >
               Join Our Journey →
             </motion.button>
+            </Link>
           </motion.div>
         </div>
       </div>
